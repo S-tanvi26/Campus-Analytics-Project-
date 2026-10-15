@@ -1,0 +1,14 @@
+[
+  {
+    "department": "CSE",
+    "department_budget": 500000
+  },
+  {
+    "department": "IT",
+    "department_budget": 350000
+  },
+  {
+    "department": "ECE",
+    "department_budget": 275000
+  }
+]

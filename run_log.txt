@@ -1,0 +1,233 @@
+WARNING: Using incubator modules: jdk.incubator.vector
+Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+26/10/14 06:16:32 WARN Utils: Your hostname, vm, resolves to a loopback address: 127.0.0.1; using 192.0.2.2 instead (on interface eth0)
+26/10/14 06:16:32 WARN Utils: Set SPARK_LOCAL_IP if you need to bind to another address
+Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+Setting default log level to "WARN".
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+/usr/local/lib/python3.12/dist-packages/pyspark/testing/utils.py:127: FutureWarning: PySpark does not yet fully support pandas >= 3.0.0. Some features may not work correctly. It is recommended to use pandas < 3.0.0 for now.
+  require_minimum_pandas_version()
+26/10/14 06:16:35 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[Stage 0:>                                                          (0 + 1) / 1]                                                                                
+======================================================================
+Task 1: students - schema, row count, sample
+======================================================================
+root
+ |-- student_id: integer (nullable = true)
+ |-- name: string (nullable = true)
+ |-- department: string (nullable = true)
+ |-- city: string (nullable = true)
+ |-- marks: integer (nullable = true)
+
+Rows: 20
++----------+------+----------+-------+-----+
+|student_id|name  |department|city   |marks|
++----------+------+----------+-------+-----+
+|201       |Aarav |CSE       |Delhi  |84   |
+|202       |Diya  |IT        |Lucknow|76   |
+|203       |Kabir |CSE       |Kanpur |91   |
+|204       |Anaya |ECE       |Delhi  |68   |
+|205       |Ishaan|IT        |Noida  |79   |
++----------+------+----------+-------+-----+
+only showing top 5 rows
+
+======================================================================
+Task 1: attendance - schema, row count, sample
+======================================================================
+root
+ |-- student_id: integer (nullable = true)
+ |-- attendance: integer (nullable = true)
+
+Rows: 20
++----------+----------+
+|student_id|attendance|
++----------+----------+
+|201       |92        |
+|202       |85        |
+|203       |96        |
+|204       |78        |
+|205       |88        |
++----------+----------+
+only showing top 5 rows
+
+======================================================================
+Task 1: department_budget - schema, row count, sample
+======================================================================
+root
+ |-- department: string (nullable = true)
+ |-- department_budget: long (nullable = true)
+
+Rows: 3
++----------+-----------------+
+|department|department_budget|
++----------+-----------------+
+|CSE       |500000           |
+|IT        |350000           |
+|ECE       |275000           |
++----------+-----------------+
+
+
+======================================================================
+Task 2: Integrated dataset
+======================================================================
+root
+ |-- department: string (nullable = true)
+ |-- student_id: integer (nullable = true)
+ |-- name: string (nullable = true)
+ |-- city: string (nullable = true)
+ |-- marks: double (nullable = true)
+ |-- attendance: double (nullable = true)
+ |-- department_budget: long (nullable = true)
+
+[Stage 18:>                                                         (0 + 1) / 1][Stage 19:>                                                         (0 + 1) / 1]                                                                                +----------+----------+------+-------+-----+----------+-----------------+
+|department|student_id|name  |city   |marks|attendance|department_budget|
++----------+----------+------+-------+-----+----------+-----------------+
+|CSE       |201       |Aarav |Delhi  |84.0 |92.0      |500000           |
+|IT        |202       |Diya  |Lucknow|76.0 |85.0      |350000           |
+|CSE       |203       |Kabir |Kanpur |91.0 |96.0      |500000           |
+|ECE       |204       |Anaya |Delhi  |68.0 |78.0      |275000           |
+|IT        |205       |Ishaan|Noida  |79.0 |88.0      |350000           |
+|CSE       |206       |Sara  |Lucknow|88.0 |93.0      |500000           |
+|ECE       |207       |Vivaan|Kanpur |72.0 |81.0      |275000           |
+|IT        |208       |Myra  |Delhi  |83.0 |90.0      |350000           |
+|CSE       |209       |Advik |Noida  |95.0 |98.0      |500000           |
+|ECE       |210       |Kiara |Lucknow|74.0 |86.0      |275000           |
++----------+----------+------+-------+-----+----------+-----------------+
+only showing top 10 rows
+Students with no budget match: 0
+Students with no attendance match: 0
+
+======================================================================
+Task 3: Students per performance category
+======================================================================
++--------------------+-----+
+|performance_category|count|
++--------------------+-----+
+|           Excellent|    8|
+|         Outstanding|    4|
+|   Needs Improvement|    2|
+|                Good|    6|
++--------------------+-----+
+
+
+======================================================================
+Task 3: Filter - Outstanding and Excellent students
+======================================================================
++----------+----------+-------+-------+-----+----------+-----------------+--------------------+
+|department|student_id|name   |city   |marks|attendance|department_budget|performance_category|
++----------+----------+-------+-------+-----+----------+-----------------+--------------------+
+|CSE       |209       |Advik  |Noida  |95.0 |98.0      |500000           |Outstanding         |
+|IT        |218       |Navya  |Lucknow|94.0 |96.0      |350000           |Outstanding         |
+|CSE       |214       |Ira    |Lucknow|93.0 |97.0      |500000           |Outstanding         |
+|CSE       |203       |Kabir  |Kanpur |91.0 |96.0      |500000           |Outstanding         |
+|IT        |212       |Aadhya |Delhi  |89.0 |95.0      |350000           |Excellent           |
+|CSE       |206       |Sara   |Lucknow|88.0 |93.0      |500000           |Excellent           |
+|CSE       |220       |Pari   |Delhi  |87.0 |94.0      |500000           |Excellent           |
+|ECE       |216       |Anvi   |Delhi  |86.0 |91.0      |275000           |Excellent           |
+|CSE       |201       |Aarav  |Delhi  |84.0 |92.0      |500000           |Excellent           |
+|IT        |208       |Myra   |Delhi  |83.0 |90.0      |350000           |Excellent           |
+|CSE       |211       |Reyansh|Kanpur |81.0 |89.0      |500000           |Excellent           |
+|ECE       |219       |Dhruv  |Kanpur |80.0 |87.0      |275000           |Excellent           |
++----------+----------+-------+-------+-----+----------+-----------------+--------------------+
+
+
+======================================================================
+Task 4: Department aggregations
+======================================================================
++----------+---------+---------+-------------+--------------+
+|department|avg_marks|max_marks|student_count|avg_attendance|
++----------+---------+---------+-------------+--------------+
+|CSE       |87.0     |95.0     |8            |92.88         |
+|IT        |82.0     |94.0     |6            |89.5          |
+|ECE       |74.17    |86.0     |6            |82.83         |
++----------+---------+---------+-------------+--------------+
+
+
+======================================================================
+Task 5a: Students scoring at least 85
+======================================================================
++----------+------+----------+-----+
+|student_id|name  |department|marks|
++----------+------+----------+-----+
+|209       |Advik |CSE       |95.0 |
+|218       |Navya |IT        |94.0 |
+|214       |Ira   |CSE       |93.0 |
+|203       |Kabir |CSE       |91.0 |
+|212       |Aadhya|IT        |89.0 |
+|206       |Sara  |CSE       |88.0 |
+|220       |Pari  |CSE       |87.0 |
+|216       |Anvi  |ECE       |86.0 |
++----------+------+----------+-----+
+
+
+======================================================================
+Task 5b: Department averages
+======================================================================
+[Stage 88:>                                                         (0 + 1) / 1]                                                                                +----------+---------+--------------+
+|department|avg_marks|avg_attendance|
++----------+---------+--------------+
+|CSE       |87.0     |92.88         |
+|IT        |82.0     |89.5          |
+|ECE       |74.17    |82.83         |
++----------+---------+--------------+
+
+
+======================================================================
+Task 5c: Top 3 highest-scoring students
+======================================================================
++----------+-----+----------+-----+
+|student_id|name |department|marks|
++----------+-----+----------+-----+
+|209       |Advik|CSE       |95.0 |
+|218       |Navya|IT        |94.0 |
+|214       |Ira  |CSE       |93.0 |
++----------+-----+----------+-----+
+
+
+======================================================================
+Task 6: Top 2 students per department (by dense rank)
+======================================================================
++----------+----------+------+-------+-----+----------+-----------------+--------------------+---------+---------------+
+|department|student_id|name  |city   |marks|attendance|department_budget|performance_category|dept_rank|dept_row_number|
++----------+----------+------+-------+-----+----------+-----------------+--------------------+---------+---------------+
+|CSE       |209       |Advik |Noida  |95.0 |98.0      |500000           |Outstanding         |1        |1              |
+|CSE       |214       |Ira   |Lucknow|93.0 |97.0      |500000           |Outstanding         |2        |2              |
+|ECE       |216       |Anvi  |Delhi  |86.0 |91.0      |275000           |Excellent           |1        |1              |
+|ECE       |219       |Dhruv |Kanpur |80.0 |87.0      |275000           |Excellent           |2        |2              |
+|IT        |218       |Navya |Lucknow|94.0 |96.0      |350000           |Outstanding         |1        |1              |
+|IT        |212       |Aadhya|Delhi  |89.0 |95.0      |350000           |Excellent           |2        |2              |
++----------+----------+------+-------+-----+----------+-----------------+--------------------+---------+---------------+
+
+[Stage 115:>                                                        (0 + 1) / 1]                                                                                
+======================================================================
+Task 7: Parquet verification
+======================================================================
+root
+ |-- department: string (nullable = true)
+ |-- student_id: integer (nullable = true)
+ |-- name: string (nullable = true)
+ |-- city: string (nullable = true)
+ |-- marks: double (nullable = true)
+ |-- attendance: double (nullable = true)
+ |-- department_budget: long (nullable = true)
+ |-- performance_category: string (nullable = true)
+ |-- dept_rank: integer (nullable = true)
+ |-- dept_row_number: integer (nullable = true)
+
++----------+----------+-------+-------+-----+----------+-----------------+--------------------+---------+---------------+
+|department|student_id|name   |city   |marks|attendance|department_budget|performance_category|dept_rank|dept_row_number|
++----------+----------+-------+-------+-----+----------+-----------------+--------------------+---------+---------------+
+|CSE       |209       |Advik  |Noida  |95.0 |98.0      |500000           |Outstanding         |1        |1              |
+|CSE       |214       |Ira    |Lucknow|93.0 |97.0      |500000           |Outstanding         |2        |2              |
+|CSE       |203       |Kabir  |Kanpur |91.0 |96.0      |500000           |Outstanding         |3        |3              |
+|CSE       |206       |Sara   |Lucknow|88.0 |93.0      |500000           |Excellent           |4        |4              |
+|CSE       |220       |Pari   |Delhi  |87.0 |94.0      |500000           |Excellent           |5        |5              |
+|CSE       |201       |Aarav  |Delhi  |84.0 |92.0      |500000           |Excellent           |6        |6              |
+|CSE       |211       |Reyansh|Kanpur |81.0 |89.0      |500000           |Excellent           |7        |7              |
+|CSE       |217       |Krish  |Noida  |77.0 |84.0      |500000           |Good                |8        |8              |
+|ECE       |216       |Anvi   |Delhi  |86.0 |91.0      |275000           |Excellent           |1        |1              |
+|ECE       |219       |Dhruv  |Kanpur |80.0 |87.0      |275000           |Excellent           |2        |2              |
++----------+----------+-------+-------+-----+----------+-----------------+--------------------+---------+---------------+
+only showing top 10 rows
+Rows written: 20 | Rows read back: 20
+Verification passed: Parquet output matches the processed DataFrame.
